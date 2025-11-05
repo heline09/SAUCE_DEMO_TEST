@@ -23,6 +23,7 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
+
 import LoginPage from '../pages/LoginPage'
 
 Cypress.Commands.add('login', (username, password) => {
@@ -30,5 +31,11 @@ Cypress.Commands.add('login', (username, password) => {
   LoginPage.enterUsername(username)
   LoginPage.enterPassword(password)
   LoginPage.clickLogin()
-})
+});
 
+Cypress.Commands.add('addProductToCart', (productName) => {
+  cy.get('.inventory_item').contains(productName)
+     .closest('.inventory_item')// move to the product container
+    .find('.btn_inventory') // find the add-to-cart button
+    .click();
+});

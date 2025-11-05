@@ -15,8 +15,14 @@ class CheckoutPage {
   }
 
   verifySuccessMessage() {
-    cy.contains('Thank you for your order').should('be.visible')
+    cy.contains('Thank you for your order!').should('be.visible')
+  }
+   checkout(firstName, lastName, postalCode) {
+    this.clickCheckout();
+    this.fillCheckoutInfo(firstName, lastName, postalCode);
+    this.finishCheckout();
   }
 }
+
 
 export default new CheckoutPage()

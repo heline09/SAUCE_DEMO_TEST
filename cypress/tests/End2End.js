@@ -20,6 +20,7 @@
 // }); 
 // });
 
+
 import InventoryPage from '../pages/InventoryPage'
 import CheckoutPage from '../pages/CheckoutPage'
 
@@ -27,7 +28,7 @@ describe('Sauce Demo E2E Flow', () => {
 
   beforeEach(() => {
     cy.fixture('users').then((data) => {
-      cy.login(data.validUser.username, data.validUser.password);
+      cy.login(data.standardUser.username, data.standardUser.password);
     });
   });
 

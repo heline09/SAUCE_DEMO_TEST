@@ -3,13 +3,13 @@ class LoginPage {
          cy.visit(Cypress.env('url'));
     }
     enterUsername(username) {
-        cy.get('#user-name', { timeout: 10000 }).type(username)
+        cy.get('#user-name',).type(username)
     }
     enterPassword(password) {
-        cy.get('#password').type(password)
+        cy.get('#password',).type(password)
     }
     clickLogin() {
-        cy.get('#login-button').click()
+        cy.get('#login-button',).click()
     }
 }
 
