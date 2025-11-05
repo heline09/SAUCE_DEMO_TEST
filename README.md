@@ -14,8 +14,7 @@ Parameterized tests — Test specs accept arguments (product names, users) so te
   - npm -i init -> for installing package.json on to your project
   - npm install cypress --save-dev
 2. Open Cypress Test Runner:
-
-   .node_modules/.bin/cypress open OR npx cypress open
+  - .node_modules/.bin/cypress open OR npx cypress open
 4. Run headless:
   npx cypress run
 
