@@ -19,7 +19,7 @@ Parameterized tests — Test specs accept arguments (product names, users) so te
 2. Open Cypress Test Runner:
   - .node_modules/.bin/cypress open OR npx cypress open
 4. Run headless:
-  npx cypress run
+  - npx cypress run
 
 ### Contact
 If anything fails when you push or run the tests, paste the error output here and I'll help debug.
