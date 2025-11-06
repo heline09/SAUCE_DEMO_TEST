@@ -1,80 +1,50 @@
-// import InventoryPage from '../pages/InventoryPage';
-// import CheckoutPage from '../pages/CheckoutPage';
+/// <reference types="cypress" />
 
-//     describe('Data-Driven Purchase Flow', () => {
+import LoginPage from "../pages/LoginPage"
+import InventoryPage from '../pages/InventoryPage'
+import CheckoutPage from '../pages/CheckoutPage'
 
-//     beforeEach(() => {
-//         cy.fixture('users').as('users');
-//         cy.fixture('products').as('products');
-//     });
+describe('End to end Purchase Flow', () => {
 
-//     it('should allow multiple users to purchase multiple products', function () {
-//         Object.values(this.users).forEach(user => {
-//         cy.login(user.username, user.password);
+  before(function () {
+    // Load the data externally using fixtures
+    cy.fixture('users').then((data) => {
+      this.data = data
+    })
+  })
+  it('should allow multiple users to purchase multiple products', function () {
 
-//         this.products.forEach(product => {
-//             cy.addProductToCart(product.name);
-//         });
+    const productName = this.data.productData;
 
-//         InventoryPage.openCart();
-//         this.products.forEach(product => {
-//             cy.contains(product.name).should('be.visible');
-//         });
-
-//         CheckoutPage.checkout('John', 'Doe', '12345');
-//         cy.contains('Thank you for your order!', { timeout: 10000 }).should('be.visible');
-
-//         });
-//     });
-//     });
-    import InventoryPage from '../pages/InventoryPage';
-    import CheckoutPage from '../pages/CheckoutPage';
-
-    describe('Data-Driven Purchase Flow', () => {
-
-        beforeEach(() => {
-            cy.fixture('users').as('users');
-            cy.fixture('products').as('products');
-        });
-
-      it('should allow multiple users to purchase multiple products', function () {
-  cy.wrap(Object.values(this.users)).each(user => {
-    
     // Visit login page
-    cy.visit('https://www.saucedemo.com/');
+    LoginPage.visit()
 
-    // Login
-    cy.login(user.username, user.password);
+    // Login using fixture data
+    LoginPage.login(this.data.validUser.username, this.data.validUser.password)
 
-    // Skip locked users
-    if (user.username === 'locked_out_user') {
-      cy.get('[data-test="error"]').should('contain', 'locked');
-      return; // skip rest of flow for this user
-    }
+    // Inventory Page actions      
+    InventoryPage.pageValidation()
+    InventoryPage.getProductCards()
+    InventoryPage.selectProduct(productName)
+    InventoryPage.addToCart()
+    InventoryPage.goToCart()
+    InventoryPage.productValidation()
 
-    // Add products to cart
-    cy.wrap(this.products).each(product => {
-      cy.addProductToCart(product.name);
-    });
-
-    // Open cart and verify products
-    InventoryPage.openCart();
-    cy.wrap(this.products).each(product => {
-      cy.contains('.inventory_item_name', product.name)
-        .should('be.visible');
-    });
 
     // Checkout
-    CheckoutPage.checkout('John', 'Doe', '12345');
-
+    CheckoutPage.clickCheckout()
+    CheckoutPage.checkoutValidation()
+    CheckoutPage.fillCheckoutInfo(this.data.checkoutDetails.firstName, this.data.checkoutDetails.lastName, this.data.checkoutDetails.postalCode)
+    CheckoutPage.verifyCheckoutOverview()
+    CheckoutPage.finishCheckout()
     // Verify order completion
-    cy.contains('Thank you for your order!', { timeout: 10000 })
-      .should('be.visible');
+    CheckoutPage.verifySuccessMessage()
+
 
     // Log out for next user
-    cy.get('#react-burger-menu-btn').click();
-    cy.get('#logout_sidebar_link').click();
-    cy.url().should('include', '/'); // back to login page
+    cy.get('#react-burger-menu-btn').click()
+    cy.get('#logout_sidebar_link').click()
+    cy.url().should('include', '/')
   });
 });
-    });
+

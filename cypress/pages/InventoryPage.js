@@ -1,17 +1,30 @@
+/// <reference types="cypress" /> 
+
 class InventoryPage {
-  addProductToCart(productName) {
-    cy.contains('.inventory_item_name', productName) // scope to product name class
-      .closest('.inventory_item')                     // closest container
-      .within(() => {
-        cy.get('button.btn_inventory')               // specifically the Add to Cart button
-          .should('be.visible')                     // make sure it's visible
-          .click();
-      });
+  // validate that we're on the correct page
+  pageValidation() {
+    cy.contains("Swag Labs").should('be.visible')
   }
 
-  openCart() {
-    cy.get('.shopping_cart_link').click();
+  // Get all product cards
+  getProductCards() {
+    return cy.get('.inventory_list')   
   }
+  // Add the first product in the list to the cart
+  selectProduct(productName)
+   {
+    cy.addProductToCart(productName)
+   }
+   addToCart(){
+    cy.get('.inventory_item').first().find('button').click()
+   }
+   productValidation(){
+    cy.get('.cart_item').should('have.length', 1)
+   }  
+   // Navigate to cart/checkout page
+  goToCart() {
+    cy.get('.shopping_cart_link').click();
+     }
 }
 
 export default new InventoryPage();

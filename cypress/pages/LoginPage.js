@@ -1,16 +1,14 @@
+/// <reference types="cypress" />
 class LoginPage {
+    // Navigate to the login page
     visit() {
-         cy.visit(Cypress.env('url'));
+        cy.visit(Cypress.env('url'))
     }
-    enterUsername(username) {
-        cy.get('#user-name',).type(username)
-    }
-    enterPassword(password) {
-        cy.get('#password',).type(password)
-    }
-    clickLogin() {
-        cy.get('#login-button',).click()
+
+    // login to the page
+    login(username, password) {
+        cy.login(username, password)
     }
 }
 
-export default new LoginPage()
+export default new LoginPage;

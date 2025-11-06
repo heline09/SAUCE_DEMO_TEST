@@ -24,18 +24,21 @@
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 
-import LoginPage from '../pages/LoginPage'
 
+// custom command to login
 Cypress.Commands.add('login', (username, password) => {
-  LoginPage.visit()
-  LoginPage.enterUsername(username)
-  LoginPage.enterPassword(password)
-  LoginPage.clickLogin()
-});
+    // Get username and password 
+    cy.get('#user-name').type(username);
+    cy.get('#password').type(password);
+    // Login 
+    cy.get('#login-button').click()
+})
 
+// custom command to add product to cart by name
 Cypress.Commands.add('addProductToCart', (productName) => {
-  cy.get('.inventory_item').contains(productName)
-     .closest('.inventory_item')// move to the product container
-    .find('.btn_inventory') // find the add-to-cart button
-    .click();
-});
+    cy.get('.inventory_item').each(($el) => { //loops through each product
+        if ($el.text().includes(productName)) { 
+            cy.wrap($el).find('button').click()
+        }
+    })
+})

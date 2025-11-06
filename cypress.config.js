@@ -3,9 +3,9 @@ const { defineConfig } = require("cypress");
 module.exports = defineConfig({
   reporter: 'mochawesome',
   reporterOptions: {
-    reportDir: 'cypress/reports', // folder where reports will be saved
-    overwrite: false,             // create new report each run
-    html: true,                   // generate HTML report
+    reportDir: 'cypress/reports', 
+    overwrite: false,             
+    html: true,                   
     json: true
   },
   defaultCommandTimeout: 6000,
